@@ -1,0 +1,16 @@
+   name: Sync Docker Image
+   run-name: ${{ github.actor }} is running GitHub Actions
+   on: [push]
+   jobs:
+     Sync-Docker-Image-Actions:
+       runs-on: ubuntu-latest
+       steps:
+         - name: Check out repository code
+           uses: actions/checkout@v4
+         - name: login to docker registry
+           run: |
+             docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}" registry.cn-hangzhou.aliyuncs.com
+         - name: execute sync.sh
+           run: |
+             bash "${{ github.workspace }}/sync.sh"
+         - run: echo "This job's status is ${{ job.status }}"
